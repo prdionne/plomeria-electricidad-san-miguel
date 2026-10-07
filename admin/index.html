@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Centro de Operaciones | Plomería y Electricidad San Miguel</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+
+<body>
+  <header class="admin-header">
+    <div class="admin-wrap">
+      <div>
+        <span class="admin-kicker">CENTRO DE OPERACIONES</span>
+        <h1>Plomería &amp; Electricidad</h1>
+        <p>San Miguel de Allende</p>
+      </div>
+      <span class="admin-status">ADMIN</span>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+
+    <section class="admin-intro">
+      <span class="admin-kicker">RESUMEN</span>
+      <h2>Actividad de leads</h2>
+      <p>Los datos reales se conectarán en una siguiente etapa.</p>
+    </section>
+
+    <section class="metrics-grid" aria-label="Resumen de actividad">
+      <article class="metric-card">
+        <span>Leads hoy</span>
+        <strong id="leads-today">—</strong>
+      </article>
+
+      <article class="metric-card">
+        <span>Llamadas</span>
+        <strong id="calls-month">—</strong>
+      </article>
+
+      <article class="metric-card">
+        <span>WhatsApp</span>
+        <strong id="whatsapp-month">—</strong>
+      </article>
+
+      <article class="metric-card">
+        <span>Leads este mes</span>
+        <strong id="leads-month">—</strong>
+      </article>
+    </section>
+
+    <section class="admin-section">
+      <div class="section-heading">
+        <div>
+          <span class="admin-kicker">SERVICIOS</span>
+          <h2>Rendimiento por servicio</h2>
+        </div>
+      </div>
+
+      <div class="service-admin-grid">
+        <article class="service-admin-card">
+          <h3>Plomería</h3>
+          <p>Leads generados</p>
+          <strong>—</strong>
+        </article>
+
+        <article class="service-admin-card">
+          <h3>Electricidad</h3>
+          <p>Leads generados</p>
+          <strong>—</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="admin-section">
+      <div class="section-heading">
+        <div>
+          <span class="admin-kicker">ACTIVIDAD</span>
+          <h2>Leads recientes</h2>
+        </div>
+      </div>
+
+      <div class="empty-state">
+        <strong>No hay datos conectados todavía</strong>
+        <p>La tabla se activará cuando conectemos llamadas y WhatsApp.</p>
+      </div>
+    </section>
+
+    <section class="admin-section">
+      <div class="section-heading">
+        <div>
+          <span class="admin-kicker">PARTNER</span>
+          <h2>Proveedor de servicio</h2>
+        </div>
+      </div>
+
+      <div class="partner-card">
+        <div>
+          <span>Estado</span>
+          <strong>Configuración pendiente</strong>
+        </div>
+        <div>
+          <span>Teléfono</span>
+          <strong>—</strong>
+        </div>
+        <div>
+          <span>WhatsApp</span>
+          <strong>—</strong>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="admin-footer">
+    <div class="admin-wrap">
+      <span>Plomería &amp; Electricidad San Miguel</span>
+      <span>Centro de Operaciones</span>
+    </div>
+  </footer>
+
+  <script>
+    async function loadDashboard() {
+      try {
+        const response = await fetch("/api/admin");
+
+        if (!response.ok) {
+          throw new Error("Admin API request failed");
+        }
+
+        const data = await response.json();
+
+        const whatsappToday = (data.whatsappHistory || [])
+          .filter(item => {
+            const value = item.dateHourMinute || "";
+            const now = new Date();
+
+            const today = new Intl.DateTimeFormat("en-CA", {
+              timeZone: "America/Mexico_City",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit"
+            }).format(now).replaceAll("-", "");
+
+            return value.startsWith(today);
+          })
+          .reduce((total, item) => total + Number(item.eventCount || 0), 0);
+
+        document.getElementById("leads-today").textContent =
+          data.callsToday + whatsappToday;
+
+        document.getElementById("calls-month").textContent =
+          data.currentMonth.calls;
+
+        document.getElementById("whatsapp-month").textContent =
+          data.currentMonth.whatsappClicks;
+
+        document.getElementById("leads-month").textContent =
+          data.currentMonth.calls + data.currentMonth.whatsappClicks;
+      } catch (error) {
+        console.error("Unable to load dashboard data:", error);
+      }
+    }
+
+    loadDashboard();
+  </script>
+
+</body>
+</html>

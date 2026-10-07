@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+  --ink: #193e38;
+  --ink2: #2b514a;
+  --muted: #61746e;
+  --cream: #faf9f4;
+  --paper: #ffffff;
+  --line: #e1e9e2;
+  --mint: #eaf2e9;
+  --accent: #d9ad64;
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Manrope, 'DM Sans', sans-serif;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.admin-wrap {
+  width: min(1120px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.admin-header {
+  background: var(--ink);
+  color: #fff;
+  padding: 30px 0;
+}
+
+.admin-header .admin-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-kicker {
+  display: block;
+  color: #8fbea9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.admin-header h1 {
+  margin: 6px 0 2px;
+  font-size: 1.55rem;
+}
+
+.admin-header p {
+  margin: 0;
+  color: #c4d7ce;
+  font-size: 0.88rem;
+}
+
+.admin-status {
+  border: 1px solid #66877d;
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: #d9eadf;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.admin-intro {
+  padding: 52px 0 28px;
+}
+
+.admin-intro h2 {
+  margin: 8px 0 8px;
+  font-size: 2rem;
+}
+
+.admin-intro p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.metric-card,
+.service-admin-card,
+.partner-card,
+.empty-state {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.metric-card {
+  padding: 24px;
+}
+
+.metric-card span,
+.partner-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 10px;
+  font-family: Manrope, sans-serif;
+  font-size: 2.1rem;
+}
+
+.admin-section {
+  padding-top: 54px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 7px 0 0;
+  font-size: 1.45rem;
+}
+
+.service-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.service-admin-card {
+  padding: 24px;
+}
+
+.service-admin-card h3 {
+  margin-bottom: 5px;
+  font-size: 1.15rem;
+}
+
+.service-admin-card p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  margin-bottom: 12px;
+}
+
+.service-admin-card strong {
+  font-family: Manrope, sans-serif;
+  font-size: 1.8rem;
+}
+
+.empty-state {
+  padding: 36px;
+  text-align: center;
+}
+
+.empty-state strong {
+  display: block;
+  font-family: Manrope, sans-serif;
+  margin-bottom: 7px;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.partner-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.partner-card strong {
+  display: block;
+  margin-top: 5px;
+  font-family: Manrope, sans-serif;
+  font-size: 0.95rem;
+}
+
+.admin-footer {
+  margin-top: 70px;
+  background: var(--ink);
+  color: #bcd0c5;
+  padding: 24px 0;
+  font-size: 0.76rem;
+}
+
+.admin-footer .admin-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+@media (max-width: 760px) {
+  .admin-wrap {
+    width: min(100% - 28px, 560px);
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-admin-grid,
+  .partner-card {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-intro {
+    padding-top: 38px;
+  }
+
+  .admin-footer .admin-wrap {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-header .admin-wrap {
+    align-items: flex-start;
+  }
+}
