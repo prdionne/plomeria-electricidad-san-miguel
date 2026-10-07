@@ -25,7 +25,7 @@
     <section class="admin-intro">
       <span class="admin-kicker">RESUMEN</span>
       <h2>Actividad de leads</h2>
-      <p>Los datos reales se conectarán en una siguiente etapa.</p>
+      <p>Actividad real de llamadas y WhatsApp generada desde el sitio.</p>
     </section>
 
     <section class="metrics-grid" aria-label="Resumen de actividad">
@@ -53,22 +53,30 @@
     <section class="admin-section">
       <div class="section-heading">
         <div>
-          <span class="admin-kicker">SERVICIOS</span>
-          <h2>Rendimiento por servicio</h2>
+          <span class="admin-kicker">COMPARACIÓN</span>
+          <h2>Actividad mensual</h2>
         </div>
       </div>
 
-      <div class="service-admin-grid">
-        <article class="service-admin-card">
-          <h3>Plomería</h3>
-          <p>Leads generados</p>
-          <strong>—</strong>
+      <div class="monthly-grid">
+        <article class="monthly-card">
+          <span id="current-month-name">Mes actual</span>
+          <strong id="current-month-leads">—</strong>
+          <small>leads</small>
+          <div class="monthly-detail">
+            <span>Llamadas <b id="current-month-calls">—</b></span>
+            <span>WhatsApp <b id="current-month-whatsapp">—</b></span>
+          </div>
         </article>
 
-        <article class="service-admin-card">
-          <h3>Electricidad</h3>
-          <p>Leads generados</p>
-          <strong>—</strong>
+        <article class="monthly-card">
+          <span id="previous-month-name">Mes anterior</span>
+          <strong id="previous-month-leads">—</strong>
+          <small>leads</small>
+          <div class="monthly-detail">
+            <span>Llamadas <b id="previous-month-calls">—</b></span>
+            <span>WhatsApp <b id="previous-month-whatsapp">—</b></span>
+          </div>
         </article>
       </div>
     </section>
@@ -81,9 +89,22 @@
         </div>
       </div>
 
-      <div class="empty-state">
-        <strong>No hay datos conectados todavía</strong>
-        <p>La tabla se activará cuando conectemos llamadas y WhatsApp.</p>
+      <div class="activity-table-wrap">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="activity-body">
+            <tr>
+              <td colspan="4">Cargando actividad...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -158,6 +179,94 @@
 
         document.getElementById("leads-month").textContent =
           data.currentMonth.calls + data.currentMonth.whatsappClicks;
+
+        document.getElementById("current-month-name").textContent =
+          data.currentMonthName;
+
+        document.getElementById("current-month-leads").textContent =
+          data.currentMonth.calls + data.currentMonth.whatsappClicks;
+
+        document.getElementById("current-month-calls").textContent =
+          data.currentMonth.calls;
+
+        document.getElementById("current-month-whatsapp").textContent =
+          data.currentMonth.whatsappClicks;
+
+        document.getElementById("previous-month-name").textContent =
+          data.previousMonthName;
+
+        document.getElementById("previous-month-leads").textContent =
+          data.previousMonth.calls + data.previousMonth.whatsappClicks;
+
+        document.getElementById("previous-month-calls").textContent =
+          data.previousMonth.calls;
+
+        document.getElementById("previous-month-whatsapp").textContent =
+          data.previousMonth.whatsappClicks;
+
+        const activities = [
+          ...(data.callHistory || []).map(call => ({
+            date: new Date(call.startedAt),
+            formattedDateTime: call.formattedDateTime,
+            type: "Llamada",
+            status:
+              call.status === "answered"
+                ? "Contestada"
+                : "No contestada",
+            detail:
+              `${call.maskedCaller} · ${call.durationFormatted || "—"}`
+          })),
+          ...(data.whatsappHistory || []).map(item => {
+            const value = item.dateHourMinute || "";
+            const year = value.slice(0, 4);
+            const month = value.slice(4, 6);
+            const day = value.slice(6, 8);
+            const hour = value.slice(8, 10);
+            const minute = value.slice(10, 12);
+
+            return {
+              date: new Date(
+                `${year}-${month}-${day}T${hour}:${minute}:00-06:00`
+              ),
+              formattedDateTime:
+                `${day}/${month}/${year} ${hour}:${minute}`,
+              type: "WhatsApp",
+              status: "Contacto",
+              detail:
+                `${item.eventCount} evento${item.eventCount === 1 ? "" : "s"}`
+            };
+          })
+        ];
+
+        activities.sort(
+          (a, b) => b.date - a.date
+        );
+
+        const activityBody =
+          document.getElementById("activity-body");
+
+        if (!activities.length) {
+          activityBody.innerHTML = `
+            <tr>
+              <td colspan="4">
+                No hay actividad reciente.
+              </td>
+            </tr>
+          `;
+        } else {
+          activityBody.innerHTML =
+            activities
+              .slice(0, 20)
+              .map(activity => `
+                <tr>
+                  <td>${activity.formattedDateTime}</td>
+                  <td class="activity-type">${activity.type}</td>
+                  <td class="activity-status">${activity.status}</td>
+                  <td class="activity-detail">${activity.detail}</td>
+                </tr>
+              `)
+              .join("");
+        }
       } catch (error) {
         console.error("Unable to load dashboard data:", error);
       }
