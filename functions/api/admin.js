@@ -687,14 +687,24 @@ function buildDashboard(
 
 export async function onRequest(context) {
   try {
-    const calls = await getAvoxiCalls(
-      context.env.AVOXI_API_TOKEN
-    );
+    const [
+      calls,
+      whatsapp
+    ] = await Promise.all([
+      getAvoxiCalls(
+        context.env.AVOXI_API_TOKEN
+      ),
+      getGa4WhatsApp(
+        context.env.GA4_SERVICE_ACCOUNT
+      )
+    ]);
 
     return Response.json({
       ok: true,
-      callCount: calls.length,
-      calls
+      ...buildDashboard(
+        calls,
+        whatsapp
+      )
     });
   } catch (error) {
     console.error(error);
@@ -702,7 +712,7 @@ export async function onRequest(context) {
     return Response.json(
       {
         ok: false,
-        error: "Unable to load AVOXI activity"
+        error: "Unable to load activity"
       },
       {
         status: 500
