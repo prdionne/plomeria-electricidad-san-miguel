@@ -11,3 +11,8 @@
     padding: 48px 0;
   }
 }
+
+/* Higher-contrast service icon */
+.service-icon {
+  color: #193e38;
+}
