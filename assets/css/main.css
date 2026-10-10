@@ -16,3 +16,54 @@
 .service-icon {
   color: #193e38;
 }
+
+/* WhatsApp photo/video assistance */
+.whatsapp-photo-help {
+  background: #e8f5ec;
+  border: 1px solid #b9dfc6;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 24px 0;
+}
+
+.whatsapp-photo-help h3 {
+  color: #173d37;
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+}
+
+.whatsapp-photo-help p {
+  color: #365e49;
+  font-size: .92rem;
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+.whatsapp-photo-number {
+  font-weight: 800;
+  font-size: 1.1rem !important;
+}
+
+.whatsapp-photo-help .btn-whatsapp {
+  background: #237b51;
+  color: #fff;
+  border-color: #237b51;
+}
+
+.whatsapp-photo-help .btn-whatsapp:hover {
+  background: #19613f;
+}
+
+@media (max-width: 760px) {
+  .whatsapp-photo-number {
+    display: none;
+  }
+
+  .whatsapp-photo-help {
+    padding: 18px;
+  }
+
+  .whatsapp-photo-help .btn-whatsapp {
+    width: 100%;
+  }
+}
