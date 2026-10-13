@@ -1,0 +1,17 @@
+# Plomería y Electricidad San Miguel
+
+> Servicios de plomería y electricidad para hogares en San Miguel de Allende, Guanajuato, México.
+
+Este sitio ofrece información sobre servicios locales de plomería, instalaciones y reparaciones eléctricas, filtración de agua y calentadores de gas.
+
+## Servicios principales
+
+- [Plomería](https://plomeria-electricidad-san-miguel.mx/plomeria/): Reparación de fugas, tuberías, llaves y sanitarios.
+- [Electricidad](https://plomeria-electricidad-san-miguel.mx/electricidad/): Instalaciones y reparaciones eléctricas residenciales.
+
+## Contacto
+
+- Sitio web: https://plomeria-electricidad-san-miguel.mx/
+- Teléfono: +52 415 174 0084
+- WhatsApp: +52 415 112 5653
+- Área de servicio: San Miguel de Allende, Guanajuato, México.
